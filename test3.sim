@@ -1,0 +1,28 @@
+// Reservierte Woerter
+String if System.out.println boolean class do else false if int public return
+static true void while case switch default
+
+// Identifier
+abc a3c a_c a_2_c a b c d e f g 
+
+// Integerliterale
+12 13 1 0 9 32 12 4
+
+// Overflow
+// TODO: add Overflow
+
+// Stringliterale (gueltig)
+"Ich bin ein String!" "" "!/%&$&$((/))" "neue \n linien \n \\ \"Toll!\" "
+
+// Symbole
+{ ( ) } , = ; + - * / ! && || == != > < <= >=
+
+// Langer Kommentar
+/* ein
+   mehrzeiliger
+   // Kommentar
+   der
+   über mehrere
+   zeilen geht
+*/
+ 
