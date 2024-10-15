@@ -52,7 +52,7 @@ NEWLINE=    (\r|\n|\r\n)
 %state STRING COMMENT NORMAL
 
 %init{
-	yybegin( NORMAL )
+	yybegin( NORMAL );
 %init}
 
 // The next 3 lines are included so that we can use the generated scanner
@@ -89,285 +89,285 @@ return new Symbol(sym.EOF);
 
 	// start comment mode
 	"/*" {
-		charNum.num = 0;
+		CharNum.num = 0;
 		yybegin ( COMMENT );
 	}
 
 	// reserved: String
 	String {
-		Symbol S = new Symbol(sym.STRING, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.STRING, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
-		return s;
+		return S;
 	}
 
 	// reserved: System.out.println
 	System.out.println {
-		Symbol S = new Symbol(sym.PRINT, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.PRINT, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 18;
-		return s;
+		return S;
 	}
 
 	// reserved: boolean
 	boolean {
-		Symbol S = new Symbol(sym.BOOLEAN, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.BOOLEAN, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 7;
-		return s;
+		return S;
 	}
 
 	// reserved: class
 	class {
-		Symbol S = new Symbol(sym.CLASS, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.CLASS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 5;
-		return s;
+		return S;
 	}
 
 	// reserved: do
 	do {
-		Symbol S = new Symbol(sym.DO, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.DO, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// reserved: else
 	else {
-		Symbol S = new Symbol(sym.ELSE, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.ELSE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 4;
-		return s;
+		return S;
 	}
 
 	// reserved: false
 	false {
-		Symbol S = new Symbol(sym.FALSE, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.FALSE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 5;
-		return s;
+		return S;
 	}
 
 	// reserved: if
 	if {
-		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// reserved: int
 	int {
-		Symbol S = new Symbol(sym.INT, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.INT, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 3;
-		return s;
+		return S;
 	}
 
 	// reserved: public
 	public {
-		Symbol S = new Symbol(sym.PUBLIC, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.PUBLIC, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
-		return s;
+		return S;
 	}
 
 	// reserved: return
 	return {
-		Symbol S = new Symbol(sym.RETURN, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.RETURN, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
-		return s;
+		return S;
 	}
 
 	// reserved: static
 	static {
-		Symbol S = new Symbol(sym.STATIC, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.STATIC, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
-		return s;
+		return S;
 	}
 
 	// reserved: true
 	true {
-		Symbol S = new Symbol(sym.TRUE, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.TRUE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 4;
-		return s;
+		return S;
 	}
 
 	// reserved: void
 	void {
-		Symbol S = new Symbol(sym.VOID, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.VOID, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 4;
-		return s;
+		return S;
 	}
 
 	// reserved: while
 	while {
-		Symbol S = new Symbol(sym.WHILE, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.WHILE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 5;
-		return s;
+		return S;
 	}
 
 	// !!!
 	// reserved: case
 	case {
-		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 4;
-		return s;
+		return S;
 	}
 
 	// !!!
 	// reserved: switch
 	switch {
-		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
-		return s;
+		return S;
 	}
 
 	// !!!
 	// reserved: default
 	default {
-		Symbol S = new Symbol(sym.ELSE, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.ELSE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 7;
-		return s;
+		return S;
 	}
 
 	// symbol: {
 	"{" {
-		Symbol S = new Symbol(sym.LCURLY, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.LCURLY, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: }
 	"}" {
-		Symbol S = new Symbol(sym.RCURLY, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.RCURLY, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: (
 	"(" {
-		Symbol S = new Symbol(sym.LPAREN, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.LPAREN, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: )
 	")" {
-		Symbol S = new Symbol(sym.RPAREN, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.RPAREN, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: ,
-	, {
-		Symbol S = new Symbol(sym.COMMA, new TokenVal(yyline+1), CharNum.num);
+	"," {
+		Symbol S = new Symbol(sym.COMMA, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: =
-	= {
-		Symbol S = new Symbol(sym.ASSIGN, new TokenVal(yyline+1), CharNum.num);
+	"=" {
+		Symbol S = new Symbol(sym.ASSIGN, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: ;
-	; {
-		Symbol S = new Symbol(sym.SEMICOLON, new TokenVal(yyline+1), CharNum.num);
+	";" {
+		Symbol S = new Symbol(sym.SEMICOLON, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: +
 	"+" {
-		Symbol S = new Symbol(sym.PLUS, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.PLUS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: -
-	- {
-		Symbol S = new Symbol(sym.MINUS, new TokenVal(yyline+1), CharNum.num);
+	"-" {
+		Symbol S = new Symbol(sym.MINUS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: *
 	"*" {
-		Symbol S = new Symbol(sym.TIMES, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.TIMES, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: /
-	/ {
-		Symbol S = new Symbol(sym.DIVIDE, new TokenVal(yyline+1), CharNum.num);
+	"/" {
+		Symbol S = new Symbol(sym.DIVIDE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: !
-	! {
-		Symbol S = new Symbol(sym.NOT, new TokenVal(yyline+1), CharNum.num);
+	"!" {
+		Symbol S = new Symbol(sym.NOT, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: &&
-	&& {
-		Symbol S = new Symbol(sym.AND, new TokenVal(yyline+1), CharNum.num);
+	"&&" {
+		Symbol S = new Symbol(sym.AND, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// symbol: ||
 	"||" {
-		Symbol S = new Symbol(sym.OR, new TokenVal(yyline+1), CharNum.num);
+		Symbol S = new Symbol(sym.OR, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// symbol: ==
-	== {
-		Symbol S = new Symbol(sym.EQUALS, new TokenVal(yyline+1), CharNum.num);
+	"==" {
+		Symbol S = new Symbol(sym.EQUALS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// symbol: !=
-	!= {
-		Symbol S = new Symbol(sym.NOTEQUALS, new TokenVal(yyline+1), CharNum.num);
+	"!=" {
+		Symbol S = new Symbol(sym.NOTEQUALS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// symbol: <
-	< {
-		Symbol S = new Symbol(sym.LESS, new TokenVal(yyline+1), CharNum.num);
+	"<" {
+		Symbol S = new Symbol(sym.LESS, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: >
-	> {
-		Symbol S = new Symbol(sym.GREATER, new TokenVal(yyline+1), CharNum.num);
+	">" {
+		Symbol S = new Symbol(sym.GREATER, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num++;
-		return s;
+		return S;
 	}
 
 	// symbol: <=
-	<= {
-		Symbol S = new Symbol(sym.LESSEQ, new TokenVal(yyline+1), CharNum.num);
+	"<=" {
+		Symbol S = new Symbol(sym.LESSEQ, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// symbol: >=
-	>= {
-		Symbol S = new Symbol(sym.GREATEREQ, new TokenVal(yyline+1), CharNum.num);
+	">=" {
+		Symbol S = new Symbol(sym.GREATEREQ, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 2;
-		return s;
+		return S;
 	}
 
 	// stringliteral
-	"".*?"(?<!\\")" {
+	"".*?"(?<!\\\")" {
 		String str = yytext().substring(1, yytext().length() - 1);
-		Symbol S = new Symbol(sym.STRINGLITERAL, new StringLitTokenVal(yyline+1, CharNum.num, str))
-		CharNum.num += yytext().length;
-		return s;
+		Symbol S = new Symbol(sym.STRINGLITERAL, new StringLitTokenVal(yyline+1, CharNum.num, str));
+		CharNum.num += yytext().length();
+		return S;
 	}
 
 	// intliteral
@@ -376,9 +376,10 @@ return new Symbol(sym.EOF);
 		int val = new Integer(yytext()).intValue();
 		Symbol S = new Symbol(sym.INTLITERAL, new IntLitTokenVal(yyline+1, CharNum.num, val));
 		CharNum.num += yytext().length();
-		return s;
+		return S;
 	}
-	    
+	
+	// if nothing was matched before this (or longer)
 	. {
 		Errors.fatal(yyline+1, CharNum.num, "ignoring illegal character: " + yytext());
 	    CharNum.num++;
