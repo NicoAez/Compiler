@@ -9,14 +9,21 @@ import java_cup.runtime.*; // defines the Symbol class
 // Some tokens (e.g., literals) also include the value of the token.
 
 class TokenVal {
- // fields
     int linenum;
     int charnum;
- // constructor
+
     TokenVal(int l, int c) {
         linenum = l;
 		charnum = c;
     }
+}
+
+class CharNum {
+  static int num=1;
+}
+
+class StringHelper {
+	static StringBuilder sb = new StringBuilder();
 }
 
 class IntLitTokenVal extends TokenVal {
@@ -37,17 +44,20 @@ class StringLitTokenVal extends TokenVal {
 	}
 }
 
+class IdTokenVal extends TokenVal {
+	String val;
 
-// The following class is used to keep track of the character number at which
-// the current token starts on its line.
-class CharNum {
-  static int num=1;
+	IdTokenVal(int l, int c, String val) {
+		super(l, c);
+		this.val = val;
+	}
 }
+
 %%
 
 DIGIT=		[0-9]
 WHITESPACE=	[\ \t\n]
-NEWLINE=    (\r|\n|\r\n)
+NEWLINE=    [\r|\n|\r\n]
 
 %state STRING COMMENT NORMAL
 
@@ -63,7 +73,7 @@ NEWLINE=    (\r|\n|\r\n)
 
 // Tell JLex what to do on end-of-file
 %eofval{
-return new Symbol(sym.EOF);
+	return new Symbol(sym.EOF);
 %eofval}
 
 // Turn on line counting
@@ -79,17 +89,22 @@ return new Symbol(sym.EOF);
 
 	// reset charnum after newline
 	{NEWLINE} {
-		CharNum.num = 0;
+		CharNum.num = 1;
 	}
 
-	// start string mode - other version below
-	//	\" {
-	//		yybegin( STRING );
-	//	}
+	// start string mode
+		\" {
+			yybegin( STRING );
+		}
+
+	// comment "//.*$"
+	"//".* {
+		CharNum.num = 1;
+	}
 
 	// start comment mode
-	"/*" {
-		CharNum.num = 0;
+	"/\*" {
+		CharNum.num = 1;
 		yybegin ( COMMENT );
 	}
 
@@ -198,26 +213,23 @@ return new Symbol(sym.EOF);
 		return S;
 	}
 
-	// !!!
 	// reserved: case
 	case {
-		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
+		Symbol S = new Symbol(sym.CASE, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 4;
 		return S;
 	}
 
-	// !!!
 	// reserved: switch
 	switch {
-		Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
+		Symbol S = new Symbol(sym.SWITCH, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 6;
 		return S;
 	}
 
-	// !!!
 	// reserved: default
 	default {
-		Symbol S = new Symbol(sym.ELSE, new TokenVal(yyline+1, CharNum.num));
+		Symbol S = new Symbol(sym.DEFAULT, new TokenVal(yyline+1, CharNum.num));
 		CharNum.num += 7;
 		return S;
 	}
@@ -362,19 +374,18 @@ return new Symbol(sym.EOF);
 		return S;
 	}
 
-	// stringliteral
-	"".*?"(?<!\\\")" {
-		String str = yytext().substring(1, yytext().length() - 1);
-		Symbol S = new Symbol(sym.STRINGLITERAL, new StringLitTokenVal(yyline+1, CharNum.num, str));
-		CharNum.num += yytext().length();
-		return S;
-	}
-
 	// intliteral
 	{DIGIT}+ {
 		// TODO: check for overflow	
 		int val = new Integer(yytext()).intValue();
 		Symbol S = new Symbol(sym.INTLITERAL, new IntLitTokenVal(yyline+1, CharNum.num, val));
+		CharNum.num += yytext().length();
+		return S;
+	}
+
+	// identifier
+	[A-Za-z][A-Za-z_0-9]* {
+		Symbol S = new Symbol(sym.ID, new IdTokenVal(yyline+1, CharNum.num, yytext()));
 		CharNum.num += yytext().length();
 		return S;
 	}
@@ -387,15 +398,37 @@ return new Symbol(sym.EOF);
 }
 
 <STRING> {
-	// !!! "string" -> "string" and not (") (string) (")
-	// sonst: " (ALLES) bis " ohne: \" + nimm den 1. besten
+	// \"
+	\\\" {
+		StringHelper.sb.append(yytext());
+	}
+
+	// \n
+	\\n {
+		StringHelper.sb.append("\n");
+	}
+
+	// \t
+	\\t {
+		StringHelper.sb.append("\t");
+	}
+
 	\" {
+		String str = StringHelper.sb.toString();
+		Symbol S = new Symbol(sym.STRINGLITERAL, new StringLitTokenVal(yyline+1, CharNum.num, str));
+		CharNum.num += str.length();
+		StringHelper.sb.setLength(0);
 		yybegin( NORMAL );
+		return S;
+	}
+
+	. {
+		StringHelper.sb.append(yytext());
 	}
 }
 
 <COMMENT> {
-	"*/" {
+	"\*/" {
 		yybegin( NORMAL );
 	}
 

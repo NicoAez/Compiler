@@ -49,5 +49,6 @@ public class sym {
   public static final int GREATEREQ = 38;
   public static final int SWITCH = 40;
   public static final int CASE = 41;
+  public static final int DEFAULT = 42;
 }
 

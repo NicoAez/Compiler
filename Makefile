@@ -40,10 +40,18 @@ clean:
 	rm -f *.class simple.jlex.java *.zip
 
 
-test:	test1_noerr.sim P2.class
+test:	test.sim P2.class
 	@echo "If you get an error below your Scanner does not work yet!"
 	@echo "Modify the simple.jlex specification to implement the language!"
 	java -cp $(CLASSPATH) P2 test.sim
+
+single: a.sim P2.class
+	@echo "only a.sim"
+	java -cp ${CLASSPATH} P2 a.sim
+
+own: test1_noerr.sim P2.class
+	@echo "own file"
+	java -cp ${CLASSPATH} P2 test1_noerr.sim
 
 
 ###

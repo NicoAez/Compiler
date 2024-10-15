@@ -1,0 +1,2 @@
+String a = "new line! \n \" whee!" + b + "XD";
+String b = "\t\t\t\t\t hey!";
