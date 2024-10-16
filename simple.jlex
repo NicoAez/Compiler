@@ -376,8 +376,12 @@ NEWLINE=    [\r|\n|\r\n]
 
 	// intliteral
 	{DIGIT}+ {
-		// TODO: check for overflow	
-		int val = new Integer(yytext()).intValue();
+		int val = 0;
+		try {
+			val = Integer.parseInt(yytext());
+		} catch(Exception e) {
+			System.out.println("Overflow");
+		}
 		Symbol S = new Symbol(sym.INTLITERAL, new IntLitTokenVal(yyline+1, CharNum.num, val));
 		CharNum.num += yytext().length();
 		return S;
@@ -400,17 +404,22 @@ NEWLINE=    [\r|\n|\r\n]
 <STRING> {
 	// \"
 	\\\" {
-		StringHelper.sb.append(yytext());
+		StringHelper.sb.append("\"");
 	}
 
 	// \n
-	\\n {
+	\\n|\n {
 		StringHelper.sb.append("\n");
 	}
 
 	// \t
-	\\t {
+	\\t|\t {
 		StringHelper.sb.append("\t");
+	}
+
+	// \r
+	\\r|\r {
+		StringHelper.sb.append("\r");
 	}
 
 	\" {

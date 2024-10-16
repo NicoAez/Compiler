@@ -1,2 +1,12 @@
 String a = "new line! \n \" whee!" + b + "XD";
-String b = "\t\t\t\t\t hey!";
+// BENE
+String b = "\t\t\t\t\t hey! \ ";
+/*
+    Du 
+    Hase
+*/
+String c = "
+
+"
+int a = 2147483647;
+int b = 2147483648;
